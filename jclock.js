@@ -41,9 +41,9 @@ var clock = function(paper, x, y, r) {
 	for (c = 0; c < 12; c += 1) {
 		paper.text(x + (r - 60) * Math.cos(Math.PI / 6 * (c - 2)), y + (r - 60) * Math.sin(Math.PI / 6 * (c - 2)), c + 1).attr({ 'font-size' : '30px', 'text-anchor' : 'middle' });
 	}
-	
+
 	//hands
-	shorthand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 80))).attr({ 'stroke-width' : 6 });
+	shorthand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 90))).attr({ 'stroke-width' : 6 });
 	longhand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 50))).attr({ 'stroke-width' : 3 });
 	dot = paper.circle(x, y, 6).attr({ fill: "#000" });
 	
