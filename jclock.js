@@ -2,8 +2,8 @@
 Raphael.el.depth = function(z, shade) {
     z = (typeof z !== "undefined") ? z : 5;
 	shade = (typeof shade !== "undefined") ? shade : '#999';
-	for (var c = 0; c < z; c += 1) {
-		var s = this.clone().attr({ 'fill': shade }).transform("t" + (c + 1) + "," + (c + 1));
+    for (var c = 0; c < z; c += 1) {
+		this.clone().attr({ 'fill': shade }).transform("t" + (c + 1) + "," + (c + 1));
 	}
 	this.toFront();
 };
@@ -52,7 +52,7 @@ var clock = function(paper, x, y, r) {
 		setTime: function(h, m, duration) {
 			if (typeof h === "string") {
 				//assume one argument in "1:55" format
-				var hm = h.split(":")
+				var hm = h.split(":");
 				h = parseInt(hm[0], 10);
 				m = (hm.length > 1) ? parseInt(hm[1], 10) : 0;
 			} else {
@@ -69,7 +69,7 @@ var clock = function(paper, x, y, r) {
 			//update clock time				
 			hours = h;
 			minutes = m;
-			longhand.animate({transform: "r" + (60 * h + m) * 6 + "," + x + "," + y}, duration); 				
+            longhand.animate({transform: "r" + (60 * h + m) * 6 + "," + x + "," + y}, duration);			
 			shorthand.animate({ transform: "r" + h * 30 + "," + x + "," + y}, duration);
 		},
 		getTime: function(fmt) {
