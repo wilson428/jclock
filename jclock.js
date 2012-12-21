@@ -47,18 +47,28 @@ var clock = function(paper, x, y, r) {
 	longhand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 50))).attr({ 'stroke-width' : 3 });
 	dot = paper.circle(x, y, 6).attr({ fill: "#000" });
 	
+    var makeTime = function(h, m) {
+		if (typeof h === "string") {
+			//assume one argument in "1:55" format
+			var hm = h.split(":");
+			h = parseInt(hm[0], 10);
+			m = (hm.length > 1) ? parseInt(hm[1], 10) : 0;
+		} else {
+			m = (typeof m !== "undefined") ? m : 0;
+		}
+        return {
+            h: h,
+            m: m
+        };
+    };
+    
 	//public methods
 	return {
-		setTime: function(h, m, duration) {
-			if (typeof h === "string") {
-				//assume one argument in "1:55" format
-				var hm = h.split(":");
-				h = parseInt(hm[0], 10);
-				m = (hm.length > 1) ? parseInt(hm[1], 10) : 0;
-			} else {
-				m = (typeof m !== "undefined") ? m : 0;
-			}
-			var total_min = 60 * ((hours < h) ? (h - hours) : (12 + h - hours)) + m;
+		setTime: function (h, m, duration) {
+            h = makeTime(h, m).h;
+            m = makeTime(h, m).m;
+
+            var total_min = 60 * ((hours < h) ? (h - hours) : (12 + h - hours)) + m;
 			duration = (typeof duration !== "undefined") ? duration : 0;
 			//anything faster than 5ms / min defeats standard framerate
 			if (duration > 0 && duration < total_min * 5) {
@@ -67,15 +77,16 @@ var clock = function(paper, x, y, r) {
 			//update clock time				
 			hours = h;
 			minutes = m;
+            h += m / 60;
             longhand.animate({transform: "r" + (60 * h + m) * 6 + "," + x + "," + y}, duration);			
 			shorthand.animate({ transform: "r" + h * 30 + "," + x + "," + y}, duration);
 		},
-		getTime: function(fmt) {
+		getTime: function (fmt) {
 			if (fmt && fmt[0] === "s") {
 				return hours + ":" + (minutes < 10 ? "0" : "") + minutes;
 			} else {
 				return [hours, minutes];
 			}
 		}
-	};
+    };
 };
