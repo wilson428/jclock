@@ -43,8 +43,8 @@ var clock = function(paper, x, y, r) {
 	}
 	
 	//hands
-	shorthand = paper.path("M" + x + "," + y + "L" + x + "," + (y - 100)).attr({ 'stroke-width' : 6 });
-	longhand = paper.path("M" + x + "," + y + "L" + x + "," + (y - 150)).attr({ 'stroke-width' : 3 });
+	shorthand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 80))).attr({ 'stroke-width' : 6 });
+	longhand = paper.path("M" + x + "," + y + "L" + x + "," + (y - (r - 50))).attr({ 'stroke-width' : 3 });
 	dot = paper.circle(x, y, 6).attr({ fill: "#000" });
 	
 	//public methods
@@ -58,14 +58,12 @@ var clock = function(paper, x, y, r) {
 			} else {
 				m = (typeof m !== "undefined") ? m : 0;
 			}
-			
 			var total_min = 60 * ((hours < h) ? (h - hours) : (12 + h - hours)) + m;
 			duration = (typeof duration !== "undefined") ? duration : 0;
 			//anything faster than 5ms / min defeats standard framerate
 			if (duration > 0 && duration < total_min * 5) {
 				duration = total_min * 5;
 			}
-
 			//update clock time				
 			hours = h;
 			minutes = m;
